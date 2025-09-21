@@ -138,6 +138,15 @@ html:not(.theme-dark) .theme-toggle .moon { display: block; }
 @media (min-width: 640px) { .covers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 980px) { .covers-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
+/* Keep three-book rows evenly spaced without resizing covers */
+@media (min-width: 980px) {
+  .covers-grid.covers-fixed-3 {
+    grid-template-columns: repeat(3, 260px);
+    justify-content: space-between;
+    gap: 24px; /* slightly larger gaps for nicer breathing room */
+  }
+}
+
 .book-card { display: flex; flex-direction: column; background: transparent; border: 0; text-align: left; cursor: pointer; padding: 0; color: inherit; }
 .book-card.is-placeholder { cursor: default; }
 .book-cover {
