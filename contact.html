@@ -48,7 +48,15 @@
           <h1 class="section-title">Contact</h1>
           <p class="section-kicker">Got a question or request?</p>
 
-          <form class="contact-form" action="#" method="post" novalidate>
+          <!-- Web3Forms: action fallback for non-JS browsers; AJAX keeps users on the same page -->
+          <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+            <!-- Web3Forms required access key -->
+            <input type="hidden" name="access_key" value="bb8418e4-bc53-499f-9082-8b10f0946c19">
+            <!-- Friendly sender name shown in inbox -->
+            <input type="hidden" name="from_name" value="Andrew Watson — Website">
+            <!-- Simple bot trap (hidden from users) -->
+            <input type="checkbox" name="botcheck" style="display:none">
+
             <div class="form-field">
               <label for="name">Name</label>
               <input id="name" name="name" type="text" required />
@@ -104,20 +112,16 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- AJAX submit to Web3Forms. Keeps users on the page and shows existing success element -->
     <script>
       document.addEventListener('DOMContentLoaded', function(){
         var form = document.querySelector('.contact-form');
+        var successEl = document.querySelector('.form-success');
+
         if (!form) return;
 
-        // Build the contact email at runtime to avoid exposing it in HTML.
-        var CONTACT_EMAIL = (function(){
-          var codes = [97,110,100,114,101,119,64,97,110,100,114,101,119,45,119,97,116,115,111,110,46,99,111,46,117,107];
-          var out = '';
-          for (var i = 0; i < codes.length; i++) out += String.fromCharCode(codes[i]);
-          return out;
-        })();
-
-        form.addEventListener('submit', function(e){
+        form.addEventListener('submit', async function(e){
           e.preventDefault();
 
           if (form.checkValidity && !form.checkValidity()) {
@@ -125,32 +129,43 @@
             return;
           }
 
-          var name = (document.getElementById('name') || {}).value || '';
-          var email = (document.getElementById('email') || {}).value || '';
-          var subject = (document.getElementById('subject') || {}).value || '';
-          var message = (document.getElementById('message') || {}).value || '';
+          // Build form data (includes hidden access_key/from_name)
+          var fd = new FormData(form);
 
-          name = name.trim();
-          email = email.trim();
-          subject = subject.trim();
-          message = message.trim();
+          // Tidy up the subject to match your previous style
+          var name = (fd.get('name') || '').toString().trim() || 'Unknown';
+          var rawSubject = (fd.get('subject') || '').toString().trim();
+          fd.set('subject', '[FORM] ' + name + ' - ' + (rawSubject || 'Message'));
 
-          var fullSubject = '[FORM] ' + (name || 'Unknown') + ' - ' + (subject || 'Message');
-          var bodyLines = [
-            'Name: ' + name,
-            'Email: ' + email,
-            '',
-            'Message:',
-            message
-          ];
-          var body = bodyLines.join('\n');
+          // Ensure replies go to the sender
+          var senderEmail = (fd.get('email') || '').toString().trim();
+          if (senderEmail) fd.set('replyto', senderEmail);
 
-          var mailto = 'mailto:' + encodeURIComponent(CONTACT_EMAIL)
-            + '?subject=' + encodeURIComponent(fullSubject)
-            + '&body=' + encodeURIComponent(body);
+          // Add a timestamp (optional, helpful for logs)
+          fd.set('_submitted_at', new Date().toISOString());
 
-          // Open the user's default email client.
-          window.location.href = mailto;
+          try {
+            var res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Accept': 'application/json' },
+              body: fd
+            });
+
+            var data = null;
+            try { data = await res.json(); } catch (err) { /* ignore */ }
+
+            if (res.ok && data && data.success) {
+              // show success inline, keep same layout
+              successEl.hidden = false;
+              form.reset();
+            } else {
+              // fallback message for errors
+              var msg = (data && data.message) ? data.message : 'Sorry, something went wrong sending your message.';
+              alert(msg);
+            }
+          } catch (err) {
+            alert('Network error - please try again.');
+          }
         });
       });
     </script>
