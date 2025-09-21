@@ -45,7 +45,7 @@
           <h1 class="section-title">Contact</h1>
           <p class="section-kicker">Got a question or request?</p>
 
-          <form class="contact-form" action="#" method="post" novalidate>
+          <form class="contact-form" action="#" method="post" novalidate data-contact-email="andrew@andrew-watson.co.uk">
             <div class="form-field">
               <label for="name">Name</label>
               <input id="name" name="name" type="text" required />
@@ -102,22 +102,47 @@
 
     <script src="script.js"></script>
     <script>
-      // Lightweight client-side handler to show a success message.
+      // On submit, open user's email client with a prefilled message.
       document.addEventListener('DOMContentLoaded', function(){
         var form = document.querySelector('.contact-form');
         if (!form) return;
+
+        var CONTACT_EMAIL = form.getAttribute('data-contact-email') || 'contact@example.com';
+
         form.addEventListener('submit', function(e){
           e.preventDefault();
+
           if (form.checkValidity && !form.checkValidity()) {
             form.reportValidity && form.reportValidity();
             return;
           }
-          form.reset();
-          var success = form.querySelector('.form-success');
-          if (success) {
-            success.hidden = false;
-            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
+
+          var name = (document.getElementById('name') || {}).value || '';
+          var email = (document.getElementById('email') || {}).value || '';
+          var subject = (document.getElementById('subject') || {}).value || '';
+          var message = (document.getElementById('message') || {}).value || '';
+
+          name = name.trim();
+          email = email.trim();
+          subject = subject.trim();
+          message = message.trim();
+
+          var fullSubject = '[FORM] ' + (name || 'Unknown') + ' - ' + (subject || 'Message');
+          var bodyLines = [
+            'Name: ' + name,
+            'Email: ' + email,
+            '',
+            'Message:',
+            message
+          ];
+          var body = bodyLines.join('\n');
+
+          var mailto = 'mailto:' + encodeURIComponent(CONTACT_EMAIL)
+            + '?subject=' + encodeURIComponent(fullSubject)
+            + '&body=' + encodeURIComponent(body);
+
+          // Open the user's default email client.
+          window.location.href = mailto;
         });
       });
     </script>
