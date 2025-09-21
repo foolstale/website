@@ -201,12 +201,21 @@ body.no-scroll { overflow: hidden; }
 
 /* Newsletter */
 .newsletter-form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.section-newsletter .section-title { text-align: center; }
+.section-newsletter .section-divider {
+  width: 80px;
+  height: 2px;
+  border-radius: 2px;
+  margin: 10px auto 18px;
+  background: linear-gradient(90deg, rgba(224,163,95,0), rgba(224,163,95,0.6), rgba(224,163,95,0));
+}
 .newsletter-form input[type="email"] {
   flex: 1 1 260px; min-width: 200px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--outline);
   background: var(--bg-elev); color: var(--text);
 }
 .newsletter-form input::placeholder { color: var(--muted); }
 .fineprint { margin-top: 10px; color: var(--muted); font-size: 0.9rem; }
+.section-newsletter .fineprint { text-align: center; }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--outline); background: transparent; padding: 24px 0; }
