@@ -130,7 +130,7 @@ html:not(.theme-dark) .theme-toggle .moon { display: block; }
 /* Series + Covers */
 .series { margin: 18px 0 40px; }
 .series-muted { opacity: 0.8; }
-.series-header { display: flex; align-items: baseline; gap: 10px; justify-content: space-between; margin-bottom: 12px; }
+.series-header { display: flex; align-items: baseline; gap: 10px; justify-content: space-between; margin-bottom: 28px; }
 .series-title { margin: 0; font-size: 1.25rem; font-family: Georgia, "Times New Roman", serif; }
 .series-subtitle { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
