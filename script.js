@@ -41,6 +41,30 @@
     });
   });
 
+  // Mobile nav toggle
+  const menuBtn = document.querySelector('.menu-toggle');
+  const siteNav = document.getElementById('site-nav');
+  if (menuBtn && siteNav) {
+    const setExpanded = (on) => {
+      menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      siteNav.classList.toggle('is-open', !!on);
+    };
+    const toggle = () => setExpanded(menuBtn.getAttribute('aria-expanded') !== 'true');
+    const close = () => setExpanded(false);
+
+    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+    // Close when clicking a nav link
+    siteNav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!siteNav.classList.contains('is-open')) return;
+      const within = siteNav.contains(e.target) || menuBtn.contains(e.target);
+      if (!within) close();
+    });
+    // Close on Escape
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+
   // Map pan/zoom (Tarris)
   const vp = document.getElementById('tarris-viewport');
   if (vp) {

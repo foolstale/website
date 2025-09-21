@@ -70,12 +70,59 @@ body::before {
   background: linear-gradient(to bottom, rgba(14,11,9,0.85), rgba(14,11,9,0.55));
   border-bottom: 1px solid var(--outline);
 }
-.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 12px; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 12px; position: relative; }
 .brand { color: var(--text); text-decoration: none; font-weight: 600; letter-spacing: 0.5px; }
 .nav { display: none; gap: 18px; }
 .nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
 .nav a:hover { color: var(--text); }
 @media (min-width: 680px){ .nav { display: flex; } }
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg-elev);
+  color: var(--muted);
+  border: 1px solid var(--outline);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05), 0 10px 30px -15px var(--shadow);
+  cursor: pointer;
+}
+.menu-toggle:hover { color: var(--text); box-shadow: 0 0 0 2px var(--glow), 0 10px 30px -15px var(--shadow); }
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after { position: relative; display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+.menu-icon::before,
+.menu-icon::after { content: ""; position: absolute; left: 0; }
+.menu-icon::before { top: -6px; }
+.menu-icon::after { top: 6px; }
+.menu-toggle[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-toggle[aria-expanded="true"] .menu-icon::before { transform: rotate(45deg); top: 0; }
+.menu-toggle[aria-expanded="true"] .menu-icon::after { transform: rotate(-45deg); top: 0; }
+@media (min-width: 680px){ .menu-toggle { display: none; } }
+
+/* Mobile nav dropdown */
+@media (max-width: 679.98px){
+  .nav.is-open {
+    display: flex;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-elev);
+    border: 1px solid var(--outline);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 12px 30px -18px var(--shadow), inset 0 0 0 1px rgba(255,255,255,0.02);
+  }
+  .nav.is-open a { padding: 10px 12px; border-radius: 8px; color: var(--text); }
+  .nav.is-open a:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+}
 
 .theme-toggle {
   display: inline-flex; align-items: center; justify-content: center;
