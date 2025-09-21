@@ -45,7 +45,7 @@
           <h1 class="section-title">Contact</h1>
           <p class="section-kicker">Got a question or request?</p>
 
-          <form class="contact-form" action="#" method="post" novalidate data-contact-email="andrew@andrew-watson.co.uk">
+          <form class="contact-form" action="#" method="post" novalidate>
             <div class="form-field">
               <label for="name">Name</label>
               <input id="name" name="name" type="text" required />
@@ -102,12 +102,17 @@
 
     <script src="script.js"></script>
     <script>
-      // On submit, open user's email client with a prefilled message.
       document.addEventListener('DOMContentLoaded', function(){
         var form = document.querySelector('.contact-form');
         if (!form) return;
 
-        var CONTACT_EMAIL = form.getAttribute('data-contact-email') || 'contact@example.com';
+        // Build the contact email at runtime to avoid exposing it in HTML.
+        var CONTACT_EMAIL = (function(){
+          var codes = [97,110,100,114,101,119,64,97,110,100,114,101,119,45,119,97,116,115,111,110,46,99,111,46,117,107];
+          var out = '';
+          for (var i = 0; i < codes.length; i++) out += String.fromCharCode(codes[i]);
+          return out;
+        })();
 
         form.addEventListener('submit', function(e){
           e.preventDefault();
