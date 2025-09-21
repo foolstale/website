@@ -134,18 +134,30 @@ html:not(.theme-dark) .theme-toggle .moon { display: block; }
 .series-title { margin: 0; font-size: 1.25rem; font-family: Georgia, "Times New Roman", serif; }
 .series-subtitle { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
-.covers-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.covers-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 16px; }
 @media (min-width: 640px) { .covers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 980px) { .covers-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 /* Keep three-book rows evenly spaced without resizing covers */
-@media (min-width: 980px) {
+/* Safety tier for narrower desktops to avoid overflow */
+@media (min-width: 980px) and (max-width: 1119.98px) {
   .covers-grid.covers-fixed-3 {
     grid-template-columns: repeat(3, 260px);
-    justify-content: space-between;
-    gap: 24px; /* slightly larger gaps for nicer breathing room */
+    justify-content: center;
+    gap: 44px;
   }
 }
+/* Full-size layout for wider desktops */
+@media (min-width: 1120px) {
+  .covers-grid.covers-fixed-3 {
+    grid-template-columns: repeat(3, 280px);
+    justify-content: center; /* even outer margins; larger in-between gaps */
+    gap: 88px;
+  }
+}
+
+/* Single-card grids: keep left-aligned and inherit responsive columns */
+.covers-grid.covers-single { justify-content: start; }
 
 .book-card { display: flex; flex-direction: column; background: transparent; border: 0; text-align: left; cursor: pointer; padding: 0; color: inherit; }
 .book-card.is-placeholder { cursor: default; }
@@ -162,6 +174,7 @@ html:not(.theme-dark) .theme-toggle .moon { display: block; }
 }
 .book-card:not(.is-placeholder):hover .book-cover { box-shadow: 0 0 0 3px var(--glow), 0 26px 45px -28px var(--shadow); transform: translateY(-1px); transition: box-shadow .2s ease, transform .2s ease; }
 .book-tag { position: absolute; left: 10px; top: 10px; font-size: 12px; padding: 4px 8px; border-radius: 999px; background: rgba(224,163,95,0.14); color: var(--accent); border: 1px solid rgba(224,163,95,0.35); }
+.book-tag-dark { position: absolute; left: 10px; top: 10px; font-size: 12px; padding: 4px 8px; border-radius: 999px; background: rgba(224,163,95,0.14); color: #3d230e; border: 1px solid rgba(224,163,95,0.35); }
 .book-meta { padding: 8px 2px 0; }
 .book-title { font-size: 0.98rem; }
 
