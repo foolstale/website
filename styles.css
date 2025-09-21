@@ -118,7 +118,7 @@ html:not(.theme-dark) .theme-toggle .moon { display: block; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-radius: 999px; text-decoration: none; font-weight: 600; letter-spacing: 0.3px; border: 1px solid transparent; }
 .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1b0f09; border-color: rgba(0,0,0,0.18); box-shadow: 0 10px 25px -12px var(--accent-2), 0 0 0 2px var(--glow) inset; }
-.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:hover { filter: brightness(0.76); color: var(--text); }
 .btn-ghost { background: rgba(255,255,255,0.02); color: var(--text); border-color: var(--outline); }
 .btn-ghost:hover { background: rgba(255,255,255,0.04); box-shadow: 0 0 0 2px var(--glow); }
 
