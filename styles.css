@@ -218,11 +218,54 @@ body.no-scroll { overflow: hidden; }
 .section-newsletter .fineprint { text-align: center; }
 
 /* Footer */
-.site-footer { border-top: 1px solid var(--outline); background: transparent; padding: 24px 0; }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.footer-links { display: flex; gap: 12px; }
-.icon-link { color: var(--muted); display: inline-flex; width: 36px; height: 36px; border-radius: 8px; align-items: center; justify-content: center; background: var(--bg-elev); border: 1px solid var(--outline); }
-.icon-link:hover { color: var(--text); box-shadow: 0 0 0 2px var(--glow); }
+.site-footer {
+  border-top: 1px solid var(--outline);
+  background: transparent;
+  padding: 24px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  gap: 12px;
+}
+
+/* Footer icon buttons */
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--outline);
+  color: var(--muted);
+  text-decoration: none; /* 🔥 removes underline */
+  transition: color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-link:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--glow);
+  text-decoration: none; /* extra safeguard */
+}
+
+/* Optional: keyboard focus visible but not ugly */
+.icon-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+  border-color: var(--accent);
+}
+
 
 /* Utility */
 a { color: var(--accent); }
