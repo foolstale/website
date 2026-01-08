@@ -1,0 +1,3 @@
+Contact: https://andrew-watson.co.uk/contact.html
+Preferred-Languages: en
+Canonical: https://andrew-watson.co.uk/.well-known/security.txt
